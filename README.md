@@ -1,4 +1,4 @@
-# Домашнее задание к занятию "`SQL. Часть 1`" - `Лебедев Виктор`
+# Домашнее задание к занятию "`SQL. Часть 2`" - `Лебедев Виктор`
 
 
 ### Инструкция по выполнению домашнего задания
@@ -35,7 +35,24 @@
 
 Запрос
 ```
-
+SELECT
+    s.first_name AS employee_first_name,
+    s.last_name AS employee_last_name,
+    ci.city AS store_city,
+    COUNT(c.customer_id) AS customer_count
+FROM
+    store st
+JOIN
+    staff s ON st.store_id = s.store_id
+JOIN
+    address a ON st.address_id = a.address_id
+JOIN
+    city ci ON a.city_id = ci.city_id
+LEFT JOIN
+    customer c ON st.store_id = c.store_id
+WHERE st.store_id IN (SELECT store_id FROM customer GROUP BY store_id HAVING COUNT(*) > 300)
+GROUP BY
+    st.store_id, s.first_name, s.last_name, ci.city;
 ```
 
 ---
@@ -50,7 +67,9 @@
 
 Запрос
 ```
-
+SELECT COUNT(*)
+FROM film
+WHERE length > (SELECT AVG(length) FROM film);
 ```
 
 ---
@@ -65,7 +84,19 @@
 
 Запрос
 ```
-
+SELECT
+    DATE_FORMAT(payment_date, '%Y-%m-01') AS payment_month,
+    SUM(amount) AS total_payment_amount,
+    COUNT(payment.rental_id) AS total_rentals  
+FROM
+    payment
+JOIN
+    rental ON payment.rental_id = rental.rental_id
+GROUP BY
+    payment_month
+ORDER BY
+    total_payment_amount DESC
+LIMIT 1;
 ```
 
 ---
@@ -80,7 +111,23 @@
 
 Запрос
 ```
-
+SELECT
+    s.staff_id,
+    s.first_name,
+    s.last_name,
+    COUNT(p.payment_id) AS total_sales,
+    CASE
+        WHEN COUNT(p.payment_id) > 8000 THEN 'Да'
+        ELSE 'Нет'
+    END AS Премия
+FROM
+    staff s
+LEFT JOIN
+    payment p ON s.staff_id = p.staff_id
+GROUP BY
+    s.staff_id, s.first_name, s.last_name
+ORDER BY
+    total_sales DESC;
 ```
 
 ---
@@ -95,7 +142,17 @@
 
 Запрос
 ```
-
+SELECT
+    f.film_id,
+    f.title
+FROM
+    film f
+LEFT JOIN
+    inventory i ON f.film_id = i.film_id
+LEFT JOIN
+    rental r ON i.inventory_id = r.inventory_id
+WHERE
+    r.rental_id IS NULL;
 ```
 
 ---
