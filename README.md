@@ -54,6 +54,7 @@ WHERE st.store_id IN (SELECT store_id FROM customer GROUP BY store_id HAVING COU
 GROUP BY
     st.store_id, s.first_name, s.last_name, ci.city;
 ```
+<img src="img/img1.jpg">
 
 ---
 
@@ -71,7 +72,7 @@ SELECT COUNT(*)
 FROM film
 WHERE length > (SELECT AVG(length) FROM film);
 ```
-
+<img src="img/img2.jpg">
 ---
 
 ### Задание 3
@@ -98,7 +99,7 @@ ORDER BY
     total_payment_amount DESC
 LIMIT 1;
 ```
-
+<img src="img/img3.jpg">
 ---
 
 ### Задание 4*
@@ -129,7 +130,7 @@ GROUP BY
 ORDER BY
     total_sales DESC;
 ```
-
+<img src="img/img4.jpg">
 ---
 
 ### Задание 5*
@@ -154,7 +155,7 @@ LEFT JOIN
 WHERE
     r.rental_id IS NULL;
 ```
-
+<img src="img/img5.jpg">
 ---
 
 
